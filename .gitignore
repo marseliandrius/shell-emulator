@@ -1,0 +1,33 @@
+# Результаты сборки и тестов
+/bin/
+/build/
+/dist/
+*.exe
+*.test
+*.o
+*.a
+*.dll
+*.so
+*.dylib
+/coverage.out
+
+# Архивы
+*.zip
+*.tar
+*.gz
+*.tgz
+*.bz2
+*.xz
+*.7z
+*.rar
+
+# Настройки редакторов
+.vscode/
+.idea/
+*.code-workspace
+
+# Служебные файлы
+__pycache__/
+*.py[cod]
+.DS_Store
+Thumbs.db
