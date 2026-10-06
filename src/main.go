@@ -12,8 +12,12 @@ import (
 
 const emptyCommandLength = 0
 
-// main получает данные ОС для приглашения и запускает цикл ввода.
+// main разбирает параметры и запускает эмулятор.
 func main() {
+	cfg := parseConfig()
+	fmt.Printf("VFS: %q\n", cfg.vfsPath)
+	fmt.Printf("Script: %q\n", cfg.scriptPath)
+
 	currentUser, err := user.Current()
 	if err != nil {
 		fmt.Fprintln(os.Stderr, "Ошибка при определении текущего пользователя:", err)
@@ -25,8 +29,14 @@ func main() {
 		os.Exit(1)
 	}
 	prompt := fmt.Sprintf("%s@%s:~$ ", currentUser.Username, hostname)
-	if err := runREPL(prompt); err != nil {
-		fmt.Fprintln(os.Stderr, "Ошибка чтения ввода:", err)
+	var runErr error
+	if cfg.scriptPath != "" {
+		runErr = runScript(cfg.scriptPath, prompt)
+	} else {
+		runErr = runREPL(prompt)
+	}
+	if runErr != nil {
+		fmt.Fprintln(os.Stderr, "Ошибка выполнения:", runErr)
 		os.Exit(1)
 	}
 }
