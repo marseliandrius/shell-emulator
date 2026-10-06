@@ -1,0 +1,8 @@
+path,type,content
+/,directory,
+/home,directory,
+/home/user,directory,
+/home/user/docs,directory,
+/home/user/docs/lines.txt,file,b25lCnR3bwp0aHJlZQo=
+/tmp,directory,
+/tmp/note.txt,file,SGVsbG8K

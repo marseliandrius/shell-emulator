@@ -1,12 +1,16 @@
 package commands
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/marseliandrius/shell-emulator/src/vfs"
+)
 
 const noArguments = 0
 
 // Execute выполняет команду с указанными аргументами.
 // Возвращает признак завершения эмулятора и возможную ошибку.
-func Execute(name string, args []string) (bool, error) {
+func Execute(fs *vfs.FileSystem, name string, args []string) (bool, error) {
 	switch name {
 	case "ls", "cd":
 		fmt.Printf("%s: аргументы %q\n", name, args)

@@ -1,0 +1,3 @@
+ls
+exit extra
+ls "после ошибки exit"

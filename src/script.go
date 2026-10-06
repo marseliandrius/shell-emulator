@@ -7,10 +7,11 @@ import (
 
 	"github.com/marseliandrius/shell-emulator/src/commands"
 	"github.com/marseliandrius/shell-emulator/src/parser"
+	"github.com/marseliandrius/shell-emulator/src/vfs"
 )
 
 // runScript выполняет команды файла, останавливаясь при первой ошибке или exit.
-func runScript(path, prompt string) error {
+func runScript(path, prompt string, fs *vfs.FileSystem) error {
 	file, err := os.Open(path)
 	if err != nil {
 		return fmt.Errorf("не удалось открыть стартовый скрипт: %w", err)
@@ -30,7 +31,7 @@ func runScript(path, prompt string) error {
 		if len(parts) == emptyCommandLength {
 			continue
 		}
-		shouldExit, err := commands.Execute(parts[0], parts[1:])
+		shouldExit, err := commands.Execute(fs, parts[0], parts[1:])
 		if err != nil {
 			return fmt.Errorf("строка %d: %w", lineNumber, err)
 		}

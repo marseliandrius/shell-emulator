@@ -1,0 +1,10 @@
+ls
+ls /
+ls "/" '/'
+ls ""
+cd
+cd /
+cd "/"
+cd '/'
+exit
+ls "после exit"

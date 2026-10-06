@@ -8,32 +8,35 @@ import (
 
 	"github.com/marseliandrius/shell-emulator/src/commands"
 	"github.com/marseliandrius/shell-emulator/src/parser"
+	"github.com/marseliandrius/shell-emulator/src/vfs"
 )
 
 const emptyCommandLength = 0
 
-// main разбирает параметры и запускает эмулятор.
+// main разбирает параметры, загружает VFS и запускает эмулятор.
 func main() {
 	cfg := parseConfig()
 	fmt.Printf("VFS: %q\n", cfg.vfsPath)
 	fmt.Printf("Script: %q\n", cfg.scriptPath)
 
-	currentUser, err := user.Current()
+	fs, err := vfs.Load(cfg.vfsPath)
 	if err != nil {
-		fmt.Fprintln(os.Stderr, "Ошибка при определении текущего пользователя:", err)
+		fmt.Fprintln(os.Stderr, "Ошибка загрузки VFS:", err)
 		os.Exit(1)
 	}
-	hostname, err := os.Hostname()
+	fmt.Printf("Элементов VFS: %d\n", len(fs.Entries))
+
+	prompt, err := makePrompt()
 	if err != nil {
-		fmt.Fprintln(os.Stderr, "Ошибка при определении имени компьютера:", err)
+		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
-	prompt := fmt.Sprintf("%s@%s:~$ ", currentUser.Username, hostname)
+
 	var runErr error
 	if cfg.scriptPath != "" {
-		runErr = runScript(cfg.scriptPath, prompt)
+		runErr = runScript(cfg.scriptPath, prompt, fs)
 	} else {
-		runErr = runREPL(prompt)
+		runErr = runREPL(prompt, fs)
 	}
 	if runErr != nil {
 		fmt.Fprintln(os.Stderr, "Ошибка выполнения:", runErr)
@@ -41,9 +44,22 @@ func main() {
 	}
 }
 
-// runREPL выводит приглашение и читает строки до команды exit или конца ввода.
+// makePrompt создаёт приглашение на основе реальных данных ОС.
+func makePrompt() (string, error) {
+	currentUser, err := user.Current()
+	if err != nil {
+		return "", fmt.Errorf("не удалось определить пользователя: %w", err)
+	}
+	hostname, err := os.Hostname()
+	if err != nil {
+		return "", fmt.Errorf("не удалось определить имя компьютера: %w", err)
+	}
+	return fmt.Sprintf("%s@%s:~$ ", currentUser.Username, hostname), nil
+}
+
+// runREPL читает команды до exit или конца ввода.
 // При ошибке чтения возвращает её вызывающей функции.
-func runREPL(prompt string) error {
+func runREPL(prompt string, fs *vfs.FileSystem) error {
 	scanner := bufio.NewScanner(os.Stdin)
 	for {
 		fmt.Print(prompt)
@@ -60,7 +76,7 @@ func runREPL(prompt string) error {
 		if len(parts) == emptyCommandLength {
 			continue
 		}
-		shouldExit, err := commands.Execute(parts[0], parts[1:])
+		shouldExit, err := commands.Execute(fs, parts[0], parts[1:])
 		if err != nil {
 			fmt.Fprintln(os.Stderr, "Ошибка команды:", err)
 			continue

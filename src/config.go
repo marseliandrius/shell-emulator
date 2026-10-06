@@ -12,7 +12,7 @@ type configuration struct {
 func parseConfig() configuration {
 	var cfg configuration
 
-	flag.StringVar(&cfg.vfsPath, "vfs", "", "Путь к CSV-файлу VFS")
+	flag.StringVar(&cfg.vfsPath, "vfs", "data/vfs.csv", "Путь к CSV-файлу VFS")
 	flag.StringVar(&cfg.scriptPath, "script", "", "Путь к стартовому скрипту")
 	flag.Parse()
 

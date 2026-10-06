@@ -12,7 +12,7 @@ call ".\run.bat" -script "tests/startup_ok.txt"
 if errorlevel 1 goto failed
 
 echo === Both parameters ===
-call ".\run.bat" -vfs "data/my vfs.csv" -script "tests/startup_ok.txt"
+call ".\run.bat" -vfs "data/nested.csv" -script "tests/startup_ok.txt"
 if errorlevel 1 goto failed
 
 echo Parameter tests passed.
