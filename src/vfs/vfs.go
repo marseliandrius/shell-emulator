@@ -34,7 +34,8 @@ type Entry struct {
 
 // FileSystem хранит элементы виртуальной файловой системы в памяти.
 type FileSystem struct {
-	Entries map[string]Entry
+	Entries    map[string]Entry
+	CurrentDir string
 }
 
 // Load загружает виртуальную файловую систему из CSV-файла.
@@ -64,7 +65,11 @@ func parseRecords(records [][]string) (*FileSystem, error) {
 		return nil, errors.New("ожидался заголовок path,type,content")
 	}
 
-	fs := &FileSystem{Entries: make(map[string]Entry)}
+	fs := &FileSystem{
+		Entries:    make(map[string]Entry),
+		CurrentDir: rootPath,
+	}
+
 	for index, record := range records[1:] {
 		entry, err := parseRecord(record)
 		if err != nil {

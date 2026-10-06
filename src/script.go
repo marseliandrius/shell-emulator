@@ -23,7 +23,7 @@ func runScript(path, prompt string, fs *vfs.FileSystem) error {
 	for scanner.Scan() {
 		lineNumber++
 		line := scanner.Text()
-		fmt.Printf("%s%s\n", prompt, line)
+		fmt.Printf("%s%s$ %s\n", prompt, fs.CurrentDir, line)
 		parts, err := parser.Parse(line)
 		if err != nil {
 			return fmt.Errorf("строка %d: %w", lineNumber, err)

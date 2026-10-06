@@ -1,0 +1,3 @@
+ls /
+cd /tmp/note.txt
+ls "STOP_MARKER"

@@ -1,4 +1,4 @@
 ls
-cd "my folder"
-ls ""
+cd "/"
+ls /
 exit

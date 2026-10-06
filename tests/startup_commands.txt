@@ -1,0 +1,31 @@
+ls
+ls /
+ls /home /tmp
+ls /tmp/note.txt
+cd /home/user
+ls .
+ls ..
+cd docs
+tac lines.txt
+tac "./lines.txt" "/tmp/note.txt"
+rev lines.txt
+rev "./lines.txt" "/tmp/note.txt"
+cd ..
+cd "my folder"
+ls
+tac note.txt
+rev note.txt
+cd ..
+tac empty.txt
+rev empty.txt
+cd "."
+cd "/home//user/./docs/"
+cd ..
+cd /
+cd ..
+cd
+cal
+cal 2 2024
+cal 2024
+exit
+ls "после exit"

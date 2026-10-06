@@ -1,0 +1,3 @@
+ls /
+tac
+ls "STOP_MARKER"

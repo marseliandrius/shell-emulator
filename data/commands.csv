@@ -1,0 +1,12 @@
+path,type,content
+/,directory,
+/home,directory,
+/home/user,directory,
+/home/user/docs,directory,
+/home/user/docs/lines.txt,file,b25lCnR3bwp0aHJlZQo=
+/tmp,directory,
+/tmp/note.txt,file,SGVsbG8K
+/home/user/my folder,directory,
+/home/user/my folder/note.txt,file,0J/RgNC40LLQtdGCCg==
+/home/user/empty.txt,file,
+/home/user/binary.bin,file,/w==

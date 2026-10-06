@@ -1,0 +1,3 @@
+ls /
+rev /home/user/binary.bin
+ls "STOP_MARKER"

@@ -1,0 +1,3 @@
+ls /
+ls /missing
+ls "STOP_MARKER"

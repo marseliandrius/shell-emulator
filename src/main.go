@@ -44,7 +44,7 @@ func main() {
 	}
 }
 
-// makePrompt создаёт приглашение на основе реальных данных ОС.
+// makePrompt создаёт основу приглашения из реальных данных ОС.
 func makePrompt() (string, error) {
 	currentUser, err := user.Current()
 	if err != nil {
@@ -54,7 +54,7 @@ func makePrompt() (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("не удалось определить имя компьютера: %w", err)
 	}
-	return fmt.Sprintf("%s@%s:~$ ", currentUser.Username, hostname), nil
+	return fmt.Sprintf("%s@%s:", currentUser.Username, hostname), nil
 }
 
 // runREPL читает команды до exit или конца ввода.
@@ -62,7 +62,7 @@ func makePrompt() (string, error) {
 func runREPL(prompt string, fs *vfs.FileSystem) error {
 	scanner := bufio.NewScanner(os.Stdin)
 	for {
-		fmt.Print(prompt)
+		fmt.Printf("%s%s$ ", prompt, fs.CurrentDir)
 		check := scanner.Scan()
 		if !check {
 			return scanner.Err()
